@@ -1,8 +1,11 @@
-import os, requests
+import os, requests, csv
 import fuzzywuzzy
 from bs4 import BeautifulSoup
 
-
+def modIdFromName(modName):
+    with open('aliases.csv') as csvfile:
+        readCSV = csv.reader(csvfile, delimiter=',')
+        for row in readCSV:
 
 
 def downloadMod(modId):
