@@ -1,5 +1,9 @@
 import os, requests
-from   bs4 import BeautifulSoup
+import fuzzywuzzy
+from bs4 import BeautifulSoup
+
+
+
 
 def downloadMod(modId):
     with requests.session() as s:
