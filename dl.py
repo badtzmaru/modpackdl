@@ -1,13 +1,22 @@
+#import depedencies
 import os, requests, csv
 import fuzzywuzzy
 from bs4 import BeautifulSoup
 
+#get list of mods from csv
+mods = []
+with open('aliases.csv') as csvfile:
+    readCSV = csv.reader(csvfile, delimiter=',')
+    for row in readCSV:
+        mods.append(row);
+
+#converts a mod name to the curseforge project id
 def modIdFromName(modName):
-    with open('aliases.csv') as csvfile:
-        readCSV = csv.reader(csvfile, delimiter=',')
-        for row in readCSV:
+    for i in range(0,len(mods)):
+        if(mods[i][0] == modName):
+            return mods[i][1]
 
-
+#downloads the mods using the curseforge project id
 def downloadMod(modId):
     with requests.session() as s:
         s.headers['user-agent'] = 'Mozilla/5.0'
@@ -28,4 +37,4 @@ def downloadMod(modId):
             for chunk in r.iter_content(chunk_size=1024):
                 zipfile.write(chunk)
 
-downloadMod(238222)
+downloadMod(modIdFromName("jei"))
