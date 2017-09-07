@@ -22,9 +22,9 @@ if(len(sys.argv) != 2):
 else:
     pages = int(sys.argv[1])
 modlist = []
-for x in range(1, pages):
-    pageUrl = "https://minecraft.curseforge.com/mc-mods?filter-game-version=1738749986:628&filter-sort=popularity&page=" + str(x)
-    for y in range(0, 19):
+for x in range(0, pages):
+    pageUrl = "https://minecraft.curseforge.com/mc-mods?filter-game-version=1738749986:628&filter-sort=popularity&page=" + str(x+1)
+    for y in range(0, 20):
         browser.get(pageUrl)
         modList = browser.find_elements_by_class_name("overflow-tip")
         modList[y].click()
