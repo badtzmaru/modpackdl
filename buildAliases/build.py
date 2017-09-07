@@ -1,6 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-browser = webdriver.Chrome()
+from selenium.webdriver.chrome.options import Options
+
+chromeOptions = Options()
+chromeOptions.add_argument("--kiosk")
+browser = webdriver.Chrome(chrome_options=chromeOptions)
 browser.get("https://minecraft.curseforge.com/mc-mods")
 modList = browser.find_elements_by_class_name("overflow-tip")
 modList[0].click()
