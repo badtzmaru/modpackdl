@@ -1,10 +1,8 @@
 #import depedencies
 import os, requests, csv, sys
-import fuzzywuzzy
 from bs4 import BeautifulSoup
 
 #get list of mods from csv
-
 if(os.path.isfile('./buildAliases/aliases.csv')):
     mods = []
     with open('./buildAliases/aliases.csv') as csvfile:
@@ -14,6 +12,7 @@ if(os.path.isfile('./buildAliases/aliases.csv')):
 else:
     print("No database found, please run build.py before attempting to download")
     os._exit(0)
+
 #converts a mod name to the curseforge project id
 def modIdFromName(modName):
     for i in range(0,len(mods)):
@@ -43,6 +42,7 @@ def downloadMod(modId):
         with open("./mods/" + modName, 'wb') as zipfile:
             for chunk in r.iter_content(chunk_size=1024):
                 zipfile.write(chunk)
+
 #main
 if (len(sys.argv)>1):
     modListFromFile = [line.rstrip('\n') for line in open(sys.argv[1])]
