@@ -30,7 +30,7 @@ for x in range(0, pages):
         modList[y].click()
         modName = browser.find_elements_by_class_name("overflow-tip")[0].text
         modId = browser.find_elements_by_class_name("info-data")[0].text
-        modlist.append(str(modName) + "," + str(modId) + "\n")
+        modlist.append(str(modName).encode('utf-8') + "," + str(modId) + "\n")
 modlist.sort()
 with open('aliases.csv','w') as file:
     file.writelines(modlist)
