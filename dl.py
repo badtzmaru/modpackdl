@@ -13,6 +13,9 @@ else:
     print("No database found, please run build.py before attempting to download")
     os._exit(0)
 
+if(os.path.isdir("./mods") == False):
+    os.mkdir("mods")
+
 #converts a mod name to the curseforge project id
 def modIdFromName(modName):
     for i in range(0,len(mods)):
