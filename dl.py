@@ -18,6 +18,9 @@ else:
 if(os.path.isdir("./mods") == False):
     os.mkdir("mods")
 
+#clear function
+clear = lambda: os.system('cls')
+
 #converts a mod name to the curseforge project id
 def modIdFromName(modName):
     #for i in range(0,len(mods)):
@@ -59,6 +62,7 @@ def downloadMod(modId):
                 zipfile.write(chunk)
 
 #main
+clear()
 if (len(sys.argv)>1):
     modListFromFile = [line.rstrip('\n') for line in open(sys.argv[1])]
     print(str(len(modListFromFile)) + " mods found.")

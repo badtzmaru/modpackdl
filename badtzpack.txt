@@ -1,6 +1,7 @@
 Applied Energistics 2
 Baubles
 Botania
-test
-this should not work
+Mekanisim
+Mekanisim tools
+Mekanisim Generators
 journey map
