@@ -1,5 +1,5 @@
 #import depedencies
-import os, requests, csv
+import os, requests, csv, sys
 import fuzzywuzzy
 from bs4 import BeautifulSoup
 
@@ -16,7 +16,7 @@ def modIdFromName(modName):
         for p in range(0,len(mods[i])-1):
             if(mods[i][p] == modName):
                 return mods[i][len(mods[i])-1]
-
+    return False
 #downloads the mods using the curseforge project id
 def downloadMod(modId):
     with requests.session() as s:
@@ -37,5 +37,12 @@ def downloadMod(modId):
         with open("./mods/" + modName, 'wb') as zipfile:
             for chunk in r.iter_content(chunk_size=1024):
                 zipfile.write(chunk)
+#main
+if (len(sys.argv)>1):
+    modListFromFile = [line.rstrip('\n') for line in open(sys.argv[1])]
+    print(modListFromFile)
+    for i in range(0,len(modListFromFile)):
+        downloadMod(modIdFromName(modListFromFile[i]))
 
-downloadMod(modIdFromName("jei"))
+
+#downloadMod(modIdFromName("jei"))
