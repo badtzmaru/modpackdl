@@ -8,6 +8,10 @@ import sys
 chromeOptions = Options()
 #chromeOptions.add_argument("--kiosk")
 browser = webdriver.Chrome(chrome_options=chromeOptions)
+try:
+    os.remove("aliases.csv")
+except OSError:
+    pass
 #browser.get("https://minecraft.curseforge.com/mc-mods")
 #gameVerSelect = browser.find_element_by_id("filter-game-version")
 #gameVerOption = browser.find_elements_by_class_name("game-version-type")[0]
@@ -16,9 +20,9 @@ browser = webdriver.Chrome(chrome_options=chromeOptions)
 if(len(sys.argv) != 2):
     pages = 50
 else:
-    page = int(sys.argv[1])
+    pages = int(sys.argv[1])
 modlist = []
-for x in range(0, pages):
+for x in range(1, pages):
     pageUrl = "https://minecraft.curseforge.com/mc-mods?filter-game-version=1738749986:628&filter-sort=popularity&page=" + str(x)
     for y in range(0, 19):
         browser.get(pageUrl)
@@ -27,6 +31,7 @@ for x in range(0, pages):
         modName = browser.find_elements_by_class_name("overflow-tip")[0].text
         modId = browser.find_elements_by_class_name("info-data")[0].text
         modlist.append(str(modName) + "," + str(modId) + "\n")
+modlist.sort()
 with open('aliases.csv','w') as file:
     file.writelines(modlist)
 browser.close()
