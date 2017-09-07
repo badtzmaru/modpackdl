@@ -1,2 +1,16 @@
-journeymap
-test
+Applied Energistics 2
+Babules
+Botania
+Bookshelf
+BiblioCraft
+Chameleon
+Chisel
+CoFH Core
+Draconic Evolution
+Enviromental Tech
+BdLib
+Industrial Craft
+Inventory Tweaks
+Iron Chests
+JourneyMap
+Psi
