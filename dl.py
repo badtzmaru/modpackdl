@@ -17,6 +17,7 @@ def modIdFromName(modName):
             if(mods[i][p] == modName):
                 return mods[i][len(mods[i])-1]
     return False
+
 #downloads the mods using the curseforge project id
 def downloadMod(modId):
     with requests.session() as s:
@@ -25,11 +26,10 @@ def downloadMod(modId):
         r = s.get('https://minecraft.curseforge.com/projects/' + str(modId))
         soup = BeautifulSoup(r.text, 'html.parser')
 
-        url  = soup.find('a', 'button alt fa-icon-download')['href']
-
         modName = soup.find('span', 'overflow-tip').string + '.jar'
 
-        url = 'https://minecraft.curseforge.com/' + url
+        url = 'https://minecraft.curseforge.com/' + soup.find('a', 'button alt fa-icon-download')['href']
+
         print("Now downloading: " + str(modName))
 
         r = s.get(url, stream=True)
@@ -40,9 +40,8 @@ def downloadMod(modId):
 #main
 if (len(sys.argv)>1):
     modListFromFile = [line.rstrip('\n') for line in open(sys.argv[1])]
-    print(modListFromFile)
+    print(str(len(modListFromFile)) + " mods found.")
     for i in range(0,len(modListFromFile)):
-        downloadMod(modIdFromName(modListFromFile[i]))
-
+        downloadMod(modIdFromName(modListFromFile[i].lower()))
 
 #downloadMod(modIdFromName("jei"))
