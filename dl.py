@@ -4,6 +4,8 @@ from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 from bs4 import BeautifulSoup
 
+fuzzy = 1
+
 #get list of mods from csv
 if(os.path.isfile('./buildAliases/aliases.csv')):
     mods = []
@@ -23,21 +25,23 @@ clear = lambda: os.system('cls')
 
 #converts a mod name to the curseforge project id
 def modIdFromName(modName):
-    #for i in range(0,len(mods)):
-        #for p in range(0,len(mods[i])-1):
-            #if(mods[i][p].lower() == modName.lower()):
-                #return mods[i][len(mods[i])-1]
-    #return False
-
-    choices = []
-    for i in range(0,len(mods)):
-        choices.append(mods[i][0])
-    result = process.extractOne(modName, choices)
-    if(result[1]>=80):
+    if(fuzzy == 0):
+        print("fast")
         for i in range(0,len(mods)):
-            if (mods[i][0] == result[0]):
-                return mods[i][1]
-    return False
+            for p in range(0,len(mods[i])-1):
+                if(mods[i][p].lower() == modName.lower()):
+                    return mods[i][len(mods[i])-1]
+        return False
+    else:
+        choices = []
+        for i in range(0,len(mods)):
+            choices.append(mods[i][0])
+        result = process.extractOne(modName, choices)
+        if(result[1]>=80):
+            for i in range(0,len(mods)):
+                if (mods[i][0] == result[0]):
+                    return mods[i][1]
+        return False
 
 #downloads the mods using the curseforge project id
 def downloadMod(modId):
@@ -64,6 +68,11 @@ def downloadMod(modId):
 #main
 clear()
 if (len(sys.argv)>1):
+    if(len(sys.argv)>3): # check for first flag
+        if(sys.argv[2] == "-f" or sys.argv[2] == "-fuzzy"):
+            fuzzy = sys.argv[3]
+
+    #begin downloads
     print("Now attempting to download all mods from " + sys.argv[1] + ".")
     modListFromFile = [line.rstrip('\n') for line in open(sys.argv[1])]
     print(str(len(modListFromFile)) + " mods found.")
