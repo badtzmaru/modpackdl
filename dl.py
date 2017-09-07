@@ -34,7 +34,7 @@ def downloadMod(modId):
 
         r = s.get(url, stream=True)
 
-        with open(os.path.basename(modName), 'wb') as zipfile:
+        with open("./mods/" + modName, 'wb') as zipfile:
             for chunk in r.iter_content(chunk_size=1024):
                 zipfile.write(chunk)
 
