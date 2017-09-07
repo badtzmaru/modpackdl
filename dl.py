@@ -12,16 +12,16 @@ with open('./buildAliases/aliases.csv') as csvfile:
 
 #converts a mod name to the curseforge project id
 def modIdFromName(modName):
-    modName = modName.lower()
     for i in range(0,len(mods)):
         for p in range(0,len(mods[i])-1):
-            if(mods[i][p] == modName):
+            if(mods[i][p].lower() == modName.lower()):
                 return mods[i][len(mods[i])-1]
     return False
 
 #downloads the mods using the curseforge project id
 def downloadMod(modId):
-    print(modId)
+    if(modId == False):
+        return False
     with requests.session() as s:
         s.headers['user-agent'] = 'Mozilla/5.0'
 
@@ -44,6 +44,8 @@ if (len(sys.argv)>1):
     modListFromFile = [line.rstrip('\n') for line in open(sys.argv[1])]
     print(str(len(modListFromFile)) + " mods found.")
     for i in range(0,len(modListFromFile)):
-        downloadMod(modIdFromName(modListFromFile[i]))
-
-#downloadMod(modIdFromName("jei"))
+        currentMod = modIdFromName(modListFromFile[i])
+        if(currentMod):
+            downloadMod(currentMod)
+        else:
+            print("Sorry, " + modListFromFile[i] + " could not be found")
