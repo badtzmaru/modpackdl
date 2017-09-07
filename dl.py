@@ -13,8 +13,9 @@ with open('aliases.csv') as csvfile:
 #converts a mod name to the curseforge project id
 def modIdFromName(modName):
     for i in range(0,len(mods)):
-        if(mods[i][0] == modName):
-            return mods[i][1]
+        for p in range(0,len(mods[i])-1):
+            if(mods[i][p] == modName):
+                return mods[i][len(mods[i])-1]
 
 #downloads the mods using the curseforge project id
 def downloadMod(modId):
