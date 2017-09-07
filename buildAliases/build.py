@@ -15,8 +15,10 @@ browser = webdriver.Chrome(chrome_options=chromeOptions)
 #gameVerOption.click()
 if(len(sys.argv) != 2):
     pages = 50
+else:
+    page = int(sys.argv[1])
 modlist = []
-for x in range(0, sys.argv[1]):
+for x in range(0, pages):
     pageUrl = "https://minecraft.curseforge.com/mc-mods?filter-game-version=1738749986:628&filter-sort=popularity&page=" + str(x)
     for y in range(0, 19):
         browser.get(pageUrl)
