@@ -26,7 +26,6 @@ clear = lambda: os.system('cls')
 #converts a mod name to the curseforge project id
 def modIdFromName(modName):
     if(fuzzy == 0):
-        print("fast")
         for i in range(0,len(mods)):
             for p in range(0,len(mods[i])-1):
                 if(mods[i][p].lower() == modName.lower()):
@@ -70,7 +69,7 @@ clear()
 if (len(sys.argv)>1):
     if(len(sys.argv)>3): # check for first flag
         if(sys.argv[2] == "-f" or sys.argv[2] == "-fuzzy"):
-            fuzzy = sys.argv[3]
+            fuzzy = int(sys.argv[3])
 
     #begin downloads
     print("Now attempting to download all mods from " + sys.argv[1] + ".")
