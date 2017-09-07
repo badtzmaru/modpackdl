@@ -4,8 +4,6 @@ from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 from bs4 import BeautifulSoup
 
-fuzzy = 1
-
 #get list of mods from csv
 if(os.path.isfile('./buildAliases/aliases.csv')):
     mods = []
@@ -17,6 +15,13 @@ else:
     print("No database found, please run build.py before attempting to download")
     os._exit(0)
 
+#setup code for fuzzy matching of mod names
+fuzzy = 1
+choices = []
+for i in range(0,len(mods)):
+    choices.append(mods[i][0])
+
+#create mods directory
 if(os.path.isdir("./mods") == False):
     os.mkdir("mods")
 
@@ -32,9 +37,6 @@ def modIdFromName(modName):
                     return mods[i][len(mods[i])-1]
         return False
     else:
-        choices = []
-        for i in range(0,len(mods)):
-            choices.append(mods[i][0])
         result = process.extractOne(modName, choices)
         if(result[1]>=80):
             for i in range(0,len(mods)):
@@ -64,15 +66,29 @@ def downloadMod(modId):
             for chunk in r.iter_content(chunk_size=1024):
                 zipfile.write(chunk)
 
+#help printout
+def helpText():
+    print("~ dl.py ~\nThis is a simple tool to help you download mods from curseforge using a modlist")
+    print("Created by PanDoes and Badtz © 2017")
+    print("Usage:")
+    print("dl.py <modlist file> [-fuzzy/-f 0/1] [-help/-h]")
+    print("-fuzzy / -f: enable or disable fuzzy matching of modnames")
+    print("-help / -h: display this help text")
+    os._exit(0)
+
 #main
 clear()
 if (len(sys.argv)>1):
     if(len(sys.argv)>3): # check for first flag
         if(sys.argv[2] == "-f" or sys.argv[2] == "-fuzzy"):
             fuzzy = int(sys.argv[3])
-
+    elif(len(sys.argv) == 2 and (sys.argv[1] == "-h" or sys.argv[1] == "-help")):
+        helpText()
+    
     #begin downloads
     print("Now attempting to download all mods from " + sys.argv[1] + ".")
+    if(fuzzy == 0):
+        print("Warning, fuzzy matching disabled, exact modnames must be used. -help for more info")
     modListFromFile = [line.rstrip('\n') for line in open(sys.argv[1])]
     print(str(len(modListFromFile)) + " mods found.")
     for i in range(0,len(modListFromFile)):
@@ -81,3 +97,5 @@ if (len(sys.argv)>1):
             downloadMod(currentMod)
         else:
             print("Sorry, " + modListFromFile[i] + " could not be found.")
+else:
+    helpText()
