@@ -64,6 +64,7 @@ def downloadMod(modId):
 #main
 clear()
 if (len(sys.argv)>1):
+    print("Now attempting to download all mods from " + sys.argv[1] + ".")
     modListFromFile = [line.rstrip('\n') for line in open(sys.argv[1])]
     print(str(len(modListFromFile)) + " mods found.")
     for i in range(0,len(modListFromFile)):
@@ -71,4 +72,4 @@ if (len(sys.argv)>1):
         if(currentMod):
             downloadMod(currentMod)
         else:
-            print("Sorry, " + modListFromFile[i] + " could not be found")
+            print("Sorry, " + modListFromFile[i] + " could not be found.")
