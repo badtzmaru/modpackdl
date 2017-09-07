@@ -4,8 +4,8 @@ browser = webdriver.Chrome()
 browser.get("https://minecraft.curseforge.com/mc-mods")
 modList = browser.find_elements_by_class_name("overflow-tip")
 modList[0].click()
-modName = browser.find_element_by_class_name("overflow-tip").text
-modId = browser.find_elements_by_class_name("info-data")
+modName = browser.find_elements_by_class_name("overflow-tip")[0].text
+modId = browser.find_elements_by_class_name("info-data")[0].text
 print(modName)
-print(modId[0])
+print(modId)
 browser.close()
