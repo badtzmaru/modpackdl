@@ -1,5 +1,7 @@
 #import depedencies
 import os, requests, csv, sys
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
 from bs4 import BeautifulSoup
 
 #get list of mods from csv
@@ -18,10 +20,20 @@ if(os.path.isdir("./mods") == False):
 
 #converts a mod name to the curseforge project id
 def modIdFromName(modName):
+    #for i in range(0,len(mods)):
+        #for p in range(0,len(mods[i])-1):
+            #if(mods[i][p].lower() == modName.lower()):
+                #return mods[i][len(mods[i])-1]
+    #return False
+
+    choices = []
     for i in range(0,len(mods)):
-        for p in range(0,len(mods[i])-1):
-            if(mods[i][p].lower() == modName.lower()):
-                return mods[i][len(mods[i])-1]
+        choices.append(mods[i][0])
+    result = process.extractOne(modName, choices)
+    if(result[1]>=80):
+        for i in range(0,len(mods)):
+            if (mods[i][0] == result[0]):
+                return mods[i][1]
     return False
 
 #downloads the mods using the curseforge project id

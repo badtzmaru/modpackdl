@@ -1,22 +1,6 @@
 Applied Energistics 2
 Baubles
 Botania
-Bookshelf
-BiblioCraft
-Chameleon
-Chisel
-CoFH Core
-BdLib
-Industrial Craft
-Inventory Tweaks
-Iron Chests
-JourneyMap
-Psi
-Mekanism
-Mekanism tools
-Mekanism generators
-COFH world
-thermal expansion
-thermal dynamics
-quark
-autoreglib
+test
+this should not work
+journey map
