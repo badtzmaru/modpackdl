@@ -1,16 +1,22 @@
 Applied Energistics 2
-Babules
+Baubles
 Botania
 Bookshelf
 BiblioCraft
 Chameleon
 Chisel
 CoFH Core
-Draconic Evolution
-Enviromental Tech
 BdLib
 Industrial Craft
 Inventory Tweaks
 Iron Chests
 JourneyMap
 Psi
+Mekanism
+Mekanism tools
+Mekanism generators
+COFH world
+thermal expansion
+thermal dynamics
+quark
+autoreglib
