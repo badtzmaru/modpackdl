@@ -36,7 +36,7 @@ def addMod(modName):
 if(len(sys.argv) == 1):
     print("Output file must be specified!")
     os._exit(0)
-elif(len(sys.argv) > 2):
+elif(len(sys.argv) > 1):
     for i in range(1, len(sys.argv)):
         if(sys.argv[i] == "-f" or sys.argv[i] == "-fuzzy"):
             fuzzyBool = 1
@@ -45,6 +45,15 @@ elif(len(sys.argv) > 2):
             if(os.path.isfile(sys.argv[1])):
                 os.remove(sys.argv[1])
             print("File overwritten!")
+        elif(sys.argv[i] == "-h" or sys.argv[i] == "-help"):
+            print("~ packbuilder.py ~\nThis is a simple tool to help you build a modlist")
+            print("Created by PanDoes and Badtz 2017")
+            print("Usage:")
+            print("packbuilder.py <modlist file> [-fuzzy/-f] [-overwrite/-o] [-help/-h]")
+            print("-fuzzy / -f: enable fuzzy matching of modnames")
+            print("-overwrite / -o: overwrite existing modlist file")
+            print("-help / -h: display this help text")
+            os._exit(0)
 
 #main loop
 print("\nWelcome to the packbuilder! \nType a mod name and press enter to add!\nType \"done\" to end")

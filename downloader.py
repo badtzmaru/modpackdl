@@ -89,10 +89,10 @@ def handleModlist(file):
 
 #help printout
 def helpText():
-    print("~ dl.py ~\nThis is a simple tool to help you download mods from curseforge using a modlist")
+    print("~ downloader.py ~\nThis is a simple tool to help you download mods from curseforge using a modlist")
     print("Created by PanDoes and Badtz 2017")
     print("Usage:")
-    print("dl.py <modlist file> [-fuzzy/-f] [-h]")
+    print("downloader.py <modlist file> [-fuzzy/-f] [-h]")
     print("-fuzzy / -f: enable fuzzy matching of modnames")
     print("-help / -h: display this help text")
     os._exit(0)
