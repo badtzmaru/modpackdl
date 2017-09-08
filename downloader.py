@@ -1,5 +1,5 @@
 #import depedencies
-import os, requests, csv, sys
+import os, requests, csv, sys, math
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 from bs4 import BeautifulSoup
@@ -16,7 +16,7 @@ else:
     os._exit(0)
 
 #setup code for fuzzy matching of mod names
-fuzzy = 1
+fuzzyBool = 0
 choices = []
 for i in range(0,len(mods)):
     choices.append(mods[i][0])
@@ -30,7 +30,7 @@ clear = lambda: os.system('cls')
 
 #converts a mod name to the curseforge project id
 def modIdFromName(modName):
-    if(fuzzy == 0):
+    if(fuzzyBool == 0):
         for i in range(0,len(mods)):
             for p in range(0,len(mods[i])-1):
                 if(mods[i][p].lower() == modName.lower()):
@@ -66,36 +66,51 @@ def downloadMod(modId):
             for chunk in r.iter_content(chunk_size=1024):
                 zipfile.write(chunk)
 
-#help printout
-def helpText():
-    print("~ dl.py ~\nThis is a simple tool to help you download mods from curseforge using a modlist")
-    print("Created by PanDoes and Badtz © 2017")
-    print("Usage:")
-    print("dl.py <modlist file> [-fuzzy/-f 0/1] [-help/-h]")
-    print("-fuzzy / -f: enable or disable fuzzy matching of modnames")
-    print("-help / -h: display this help text")
-    os._exit(0)
-
-#main
-clear()
-if (len(sys.argv)>1):
-    if(len(sys.argv)>3): # check for first flag
-        if(sys.argv[2] == "-f" or sys.argv[2] == "-fuzzy"):
-            fuzzy = int(sys.argv[3])
-    elif(len(sys.argv) == 2 and (sys.argv[1] == "-h" or sys.argv[1] == "-help")):
-        helpText()
-    
+#handles a modlist text file
+def handleModlist(file):
     #begin downloads
-    print("Now attempting to download all mods from " + sys.argv[1] + ".")
-    if(fuzzy == 0):
+    print("Now attempting to download all mods from " + file + ".")
+    if(fuzzyBool == 0):
         print("Warning, fuzzy matching disabled, exact modnames must be used. -help for more info")
-    modListFromFile = [line.rstrip('\n') for line in open(sys.argv[1])]
-    print(str(len(modListFromFile)) + " mods found.")
+    modListFromFile = [line.rstrip('\n') for line in open(file)]
+    modCount = len(modListFromFile)
+    downloadComplete = modCount
+    print(str(modCount) + " mods found.")
     for i in range(0,len(modListFromFile)):
         currentMod = modIdFromName(modListFromFile[i])
         if(currentMod):
             downloadMod(currentMod)
         else:
             print("Sorry, " + modListFromFile[i] + " could not be found.")
+            downloadComplete = downloadComplete - 1
+    print(str(downloadComplete) + "/" + str(modCount) + " mods downloaded!")
+    if(float(downloadComplete)/float(modCount) < .75):
+        print("It seems that you are missing quite a few mods, maybe try using fuzzy matching? -help for more info")
+
+#help printout
+def helpText():
+    print("~ dl.py ~\nThis is a simple tool to help you download mods from curseforge using a modlist")
+    print("Created by PanDoes and Badtz 2017")
+    print("Usage:")
+    print("dl.py <modlist file> [-fuzzy/-f] [-h]")
+    print("-fuzzy / -f: enable fuzzy matching of modnames")
+    print("-help / -h: display this help text")
+    os._exit(0)
+
+#main
+clear()
+if (len(sys.argv)>1):
+    modListIndex = 0
+    for i in range(1,len(sys.argv)):
+        if(sys.argv[i] == "-f" or sys.argv[i] == "-fuzzy"):
+            fuzzyBool = 1
+        elif(sys.argv[i] == "-h" or sys.argv[i] == "-help"):
+            helpText()
+        elif(os.path.isfile(sys.argv[i])):
+            modListIndex = i
+    if(modListIndex != 0):
+        handleModlist(sys.argv[modListIndex])
+    else:
+        helpText()
 else:
     helpText()
