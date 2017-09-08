@@ -58,7 +58,7 @@ def downloadMod(modId):
 
         url = 'https://minecraft.curseforge.com/' + soup.find('a', 'button alt fa-icon-download')['href']
 
-        print("Now downloading: " + str(modName))
+        print(modName)
 
         r = s.get(url, stream=True)
 
@@ -75,7 +75,7 @@ def handleModlist(file):
     modListFromFile = [line.rstrip('\n') for line in open(file)]
     modCount = len(modListFromFile)
     downloadComplete = modCount
-    print(str(modCount) + " mods found.")
+    print("\n" + str(modCount) + " mods found.")
     for i in range(0,len(modListFromFile)):
         currentMod = modIdFromName(modListFromFile[i])
         if(currentMod):
@@ -83,7 +83,7 @@ def handleModlist(file):
         else:
             print("Sorry, " + modListFromFile[i] + " could not be found.")
             downloadComplete = downloadComplete - 1
-    print(str(downloadComplete) + "/" + str(modCount) + " mods downloaded!")
+    print("\n" + str(downloadComplete) + "/" + str(modCount) + " mods downloaded!")
     if(float(downloadComplete)/float(modCount) < .75):
         print("It seems that you are missing quite a few mods, maybe try using fuzzy matching? -help for more info")
 
