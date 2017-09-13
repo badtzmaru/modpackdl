@@ -1,9 +1,7 @@
 #import dependencies
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
-import csv, os, sys
+import csv, os, sys, requests
 import progressbar
+from bs4 import BeautifulSoup
 
 
 #handle command line arguments
@@ -32,36 +30,32 @@ def addMod(modName):
     with open("aliases.csv", 'a') as file:
         file.write(modName)
 
-#setup browser object
-chromeOptions = Options()
-#chromeOptions.add_argument("--kiosk")
-browser = webdriver.Chrome(chrome_options=chromeOptions)
-
 #begin scrape
-print("Starting scrape...")
-browser.get("https://minecraft.curseforge.com/mc-mods")
-
-parentElement = browser.find_elements_by_class_name("overflow-tip")[0]
-elementList = parentElement.find_element_by_tag_name("a").get_attribute("href")
-
-
 print("Building modlist...")
 pageBar = progressbar.ProgressBar()
 modBar = progressbar.ProgressBar()
 modList = []
 
-for x in pageBar(range(0, pages)):
-    pageUrl = "https://minecraft.curseforge.com/mc-mods?filter-game-version=1738749986:628&filter-sort=popularity&page=" + str(x+1)
-    browser.get(pageUrl)
-    for y in range(0, 20):
-        parentElement = browser.find_elements_by_class_name("overflow-tip")[y]
-        modList.append(parentElement.find_element_by_tag_name("a").get_attribute("href"))
+with requests.session() as browser:
+    browser.headers['user-agent'] = 'Mozilla/5.0'
 
-print("Getting project ids...")
-for i in modBar(range(0, len(modList))):
-    browser.get(modList[i])
-    modName = browser.find_elements_by_class_name("overflow-tip")[0].text
-    modId = browser.find_elements_by_class_name("info-data")[0].text
-    addMod(str(modName.encode('utf-8')) + "," + str(modId) + "\n")
-browser.close()
-print("Build complete!")
+    for x in pageBar(range(0, pages)):
+        pageUrl = "https://minecraft.curseforge.com/mc-mods?filter-game-version=1738749986:628&filter-sort=popularity&page=" + str(x+1)
+        r = browser.get(pageUrl)
+        soup = BeautifulSoup(r.text, 'html.parser')
+        parentElement = soup.find('div', {'class': 'overflow-tip'})
+        children = parentElement.findChildren()
+        for y in range(0,len(children)): 
+            modList.append(children[y]['href'])
+
+    print("Getting project ids...")
+    for i in modBar(range(0, len(modList))):
+        r = browser.get("https://minecraft.curseforge.com" + modList[i])
+        soup = BeautifulSoup(r.text, 'html.parser')
+        modName = soup.find('span', {'class': 'overflow-tip'}).string
+        modId = soup.find('div', {'class': 'info-data'}).string
+        print(modName)
+        print(modId)
+        addMod(str(modName.encode('utf-8')) + "," + str(modId) + "\n")
+
+    print("Build complete!")
