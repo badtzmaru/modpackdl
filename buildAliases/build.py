@@ -42,7 +42,7 @@ with requests.session() as browser:
     browser.headers['user-agent'] = 'Mozilla/5.0'
 
     for x in pageBar(range(0, pages)):
-        pageUrl = "https://minecraft.curseforge.com/mc-mods?filter-game-version=1738749986:628&filter-sort=popularity&page=" + str(x+1)
+        pageUrl = "https://minecraft.curseforge.com/mc-mods?filter-game-version=2020709689:6711&filter-sort=popularity&page=" + str(x+1)
         r = browser.get(pageUrl)
         soup = BeautifulSoup(r.text, 'html.parser')
         parentElement = soup.find_all('div', {'class': 'overflow-tip'})
