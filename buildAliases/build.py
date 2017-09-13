@@ -1,5 +1,5 @@
 #import dependencies
-import csv, os, sys, requests, time
+import csv, os, sys, requests, time, math
 import progressbar
 from bs4 import BeautifulSoup
 
@@ -61,4 +61,4 @@ with requests.session() as browser:
         addMod(str(modName.encode('utf-8')) + "," + str(modId) + "\n")
 
     end = time.time()
-    print("Build completed in " + str(end-start))
+    print("Build completed in " + str(math.floor(end-start)) + " seconds!")
