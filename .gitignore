@@ -1,6 +1,7 @@
 #custom
 mods
 ./mods
+./minecraft
 
 # Windows image file caches
 Thumbs.db

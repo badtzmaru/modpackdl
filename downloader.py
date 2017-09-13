@@ -22,8 +22,8 @@ for i in range(0,len(mods)):
     choices.append(mods[i][0])
 
 #create mods directory
-if(os.path.isdir("./mods") == False):
-    os.mkdir("mods")
+if(os.path.isdir("./minecraft/mods") == False):
+    os.mkdir("./minecraft/mods")
 
 #clear function
 clear = lambda: os.system('cls')
@@ -62,7 +62,7 @@ def downloadMod(modId):
 
         r = s.get(url, stream=True)
 
-        with open("./mods/" + modName, 'wb') as zipfile:
+        with open("./minecraft/mods/" + modName, 'wb') as zipfile:
             for chunk in r.iter_content(chunk_size=1024):
                 zipfile.write(chunk)
 
