@@ -1,6 +1,8 @@
 #custom
 ./minecraft
 minecraft
+./nuevo
+nuevo
 
 # Windows image file caches
 Thumbs.db
